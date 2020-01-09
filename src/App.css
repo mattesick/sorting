@@ -27,6 +27,16 @@
 .App-link {
   color: #61dafb;
 }
+.Bars{
+  position: relative;
+  height:90vh;
+  width:100%;
+}
+.Bars div{
+  grid-row: 1;
+  display: inline-block;
+  transform: rotateZ(180deg);
+}
 
 @keyframes App-logo-spin {
   from {
