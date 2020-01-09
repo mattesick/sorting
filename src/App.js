@@ -10,17 +10,18 @@ class App extends React.Component {
             bars: []
         }
         this.handleChange = this.handleChange.bind(this);
-        this.sort = this.sort.bind(this);
+        this.makeList = this.makeList.bind(this);
         this.selectionSort = this.selectionSort.bind(this);
         this.fastSelectionSort = this.fastSelectionSort.bind(this);
         this.bubbleSort = this.bubbleSort.bind(this);
+        this.insertionSort = this.insertionSort.bind(this);
     }
     handleChange(e) {
         this.setState({
             items: e.target.value
         })
     }
-    sort() {
+    makeList() {
         if (this.state.items > 0) {
             let newBars = [];
             for (let i = 0; i < this.state.items; i++) {
@@ -129,14 +130,14 @@ class App extends React.Component {
                     let tmp = newBars[j];
                     newBars[j] = new BarItem(newBars[j + 1].value, id(), false);
                     newBars[j + 1] = new BarItem(tmp.value, id(), false)
-                    this.setState({
-                        bars: newBars
-                    })
                     stop = true;
                     break;
                 }
             }
         }
+        this.setState({
+            bars: newBars
+        })
         if (stop) {
             setTimeout(() => {
                 this.bubbleSort()
@@ -145,19 +146,62 @@ class App extends React.Component {
 
 
     }
+    insertionSort(lasti = 1) {
+        let newBars = this.state.bars;
+        let stop = false;
+        let savei = 0;
+       if(typeof lasti == "object") lasti = 1;
+        for (let i =lasti; i < newBars.length; i++) {
+            if (stop) break;
+            if (newBars[i].value < newBars[0].value) {
+                //move current element to the first position
+                newBars.unshift(newBars.splice(i, 1)[0]);
+                stop = true;
+                savei = i;
+                break;
+            }
+            else if (newBars[i].value > newBars[i - 1].value) {
+                //leave current element where it is
+                continue;
+            }
+            else {
+                //find where element should go
+                for (let j = 1; j < i; j++) {
+                    if (newBars[i].value > newBars[j - 1].value && newBars[i].value < newBars[j].value) {
+                        //move element
+                        newBars.splice(j, 0, newBars.splice(i, 1)[0]);
+                        stop = true;
+                        savei = i;
+                        break;
+                    }
+                }
+            }
+        }
+        this.setState({
+            bars: newBars
+        })
+        if (stop) {
+            setTimeout(() => {
+                this.insertionSort(savei)
+            }, 0)
+        }
+    }
     render() {
         const renderBars = this.state.bars.map((bar) => {
             return (< Bar color={bar.color} items={this.state.items} key={bar.id} value={bar.value} />)
         });
+        const makeList =  <button onClick={this.makeList} >Skapa lista </button>;
+        const selectionSort = <button onClick={this.fastSelectionSort} >selectionSort </button>;
+        const bubbleSort = <button onClick={this.bubbleSort} >bubbleSort </button>;
+        const insertionSort = <button onClick={this.insertionSort} >insertionSort </button>;
         return (
             <div className="App">
                 <input placeholder="Antal" type="text" onChange={this.handleChange} />
-                <button onClick={this.sort} >
-                    Sortera </button>
-                <button onClick={this.fastSelectionSort} >
-                    selectionSort </button>
-                <button onClick={this.bubbleSort} >
-                    bubbleSort </button>
+                {makeList}
+                {selectionSort}
+                {bubbleSort}
+                {insertionSort}
+
                 <div className="Bars" >
                     {renderBars}
                 </div>
