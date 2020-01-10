@@ -9,8 +9,8 @@ class Bar extends React.PureComponent {
         }
 
     }
-
     render() {
+        console.log("called")
         const styles = {
             backgroundColor: calcColor(0, 100, this.state.value),
             height: this.state.value + "%",
@@ -24,7 +24,7 @@ class Bar extends React.PureComponent {
             styles.transform =  "translateY(-200px) rotateY(180deg)";
         }
         return (
-            <div style={styles} ></div>
+            <div className = "bar" style={styles} ></div>
         );
     }
 }
