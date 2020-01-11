@@ -10,11 +10,10 @@ class Bar extends React.PureComponent {
 
     }
     render() {
-        console.log("called")
         const styles = {
             backgroundColor: calcColor(0, 100, this.state.value),
             height: this.state.value + "%",
-            width: (window.innerWidth / parseInt(this.state.items)) / 1.05,
+            width: (window.innerWidth / parseInt(this.state.items)) / 1.01,
             border: "none",
             transform: "none"
         }

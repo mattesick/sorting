@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  height:100vh;
+  height:96vh;
 }
 .App input, .App button{
   grid-row: 1;
@@ -44,7 +44,7 @@
 }
 .App .bar{
   position: relative;
-  transition:1000ms all ease-in-out;
+  transition:50ms all ease-in-out;
   display: inline-block;
   
 }
